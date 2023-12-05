@@ -44,7 +44,7 @@ pal <- MetBrewer::MetPalettes$Greek[[1]][1:4]
 d |> 
   dplyr::filter(omit == "keep") |> 
   dplyr::filter( statistical == "yes") |> 
-  dplyr::filter(citations > q75_citations) |> 
+  dplyr::filter(citations >= q75_citations) |> 
   tidyr::pivot_longer(individual:tools_practices, names_to = "category", values_to = "value") |> 
   dplyr::filter(value == 1) |> 
   dplyr::mutate( category = ifelse(category == "validation_selection", "Model validation & selection", 
@@ -116,13 +116,13 @@ round( ( n_statistical / n_total ) * 100, 1 )
 ( n_statistical_q75 <- d |> 
     filter(omit == "keep") |> 
     filter(statistical == "yes") |> 
-    filter(citations > q75_citations) |> 
+    filter(citations >= q75_citations) |> 
     nrow() )
 
 ( n_q75 <- d |> 
     filter(omit == "keep") |> 
     # filter(statistical == "yes") |> 
-    filter(citations > q75_citations) |> 
+    filter(citations >= q75_citations) |> 
     nrow() )
 
 # percent of highly cited stat ecology papers of the statistical ecology papers
@@ -135,7 +135,7 @@ round( ( n_statistical_q75 / n_q75 ) * 100, 1)
 d |> 
   dplyr::filter(omit == "keep") |> 
   dplyr::filter( statistical == "yes") |> 
-  dplyr::filter(citations > q75_citations) |> 
+  dplyr::filter(citations >= q75_citations) |> 
   tidyr::pivot_longer(individual:tools_practices, names_to = "category", values_to = "value") |> 
   dplyr::filter(value == 1) |> 
   dplyr::mutate( category = ifelse(category == "validation_selection", "Model validation & selection", 
@@ -150,4 +150,4 @@ d |>
                                              "Model validation & selection", 
                                              "Tools & best practices"))) |> 
   dplyr::count(category) |> 
-  dplyr::mutate(prop = round( ( n / 407) * 100, 1) )
+  dplyr::mutate(prop = sprintf("%.1f", round( ( n / 407) * 100, 1) ))
